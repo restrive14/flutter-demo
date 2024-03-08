@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:demo/muyu/animate_text.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:demo/muyu/asset_image.dart';
 import 'package:demo/muyu/count_panel.dart';
@@ -22,12 +23,15 @@ class _MuyuPageState extends State<MuyuPage> {
   int _counter = 0;
   final Random _random = Random();
 
+  // 当前敲击增加的功德值
+  int _cruValue = 0;
+
   // 敲击木鱼
   void _onKnock() {
     pool?.start();
     setState(() {
-      int addCount = 1 + _random.nextInt(3);
-      _counter += addCount;
+      _cruValue = 1 + _random.nextInt(3);
+      _counter += _cruValue;
     });
   }
 
@@ -76,11 +80,16 @@ class _MuyuPageState extends State<MuyuPage> {
             ),
           ),
           Expanded(
-            child: MuyuAssetsImage(
-              image: 'assets/images/muyu.png',
-              onTap: _onKnock,
-            ),
-          )
+              child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              MuyuAssetsImage(
+                image: 'assets/images/muyu.png',
+                onTap: _onKnock,
+              ),
+              if (_cruValue != 0) AnimateText(text: '功德+$_cruValue')
+            ],
+          ))
         ],
       ),
     );
