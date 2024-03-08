@@ -1,14 +1,17 @@
 import 'dart:math';
 import 'package:demo/model/AudioOption.dart';
 import 'package:demo/model/ImageOption.dart';
+import 'package:demo/model/MeritRecord.dart';
 import 'package:demo/muyu/animate_text.dart';
 import 'package:demo/muyu/audio_option_panel.dart';
 import 'package:demo/muyu/image_option_panel.dart';
+import 'package:demo/muyu/recordHistory_page.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:demo/muyu/asset_image.dart';
 import 'package:demo/muyu/count_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class MuyuPage extends StatefulWidget {
   const MuyuPage({super.key});
@@ -44,6 +47,11 @@ class _MuyuPageState extends State<MuyuPage> {
   // 选中的音频索引
   int _activeAudioIndex = 0;
 
+  List<MeritRecord> _records = [];
+
+  // 生成唯一ID
+  final Uuid uuid = Uuid();
+
   // 切换音频
   void _onSelectAudio(int value) {
     Navigator.of(context).pop();
@@ -61,7 +69,16 @@ class _MuyuPageState extends State<MuyuPage> {
   }
 
   // 跳转历史记录页面
-  void _toHistory() {}
+  void _toHistory() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => RecordHistoryPage(
+          records: _records.reversed.toList(),
+        ),
+      ),
+    );
+  }
+
   // 切换敲击音频
   void _onTapSwitchAudio() {
     showCupertinoModalPopup(
@@ -107,6 +124,17 @@ class _MuyuPageState extends State<MuyuPage> {
     setState(() {
       _cruValue = min! + _random.nextInt(max! - min + 1);
       _counter += _cruValue;
+
+      // 添加功德记录
+      _records.add(
+        MeritRecord(
+          id: uuid.v4(),
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          value: _cruValue,
+          image: '${imageOptions[_activeImageIndex].src}',
+          audio: '${audioOptions[_activeAudioIndex].name}',
+        ),
+      );
     });
   }
 

@@ -1,17 +1,17 @@
 // 敲击木鱼记录item类型
 class MeritRecord {
-  final String? id;
-  final int? timestamp;
-  final int? value;
-  final String? image;
-  final String? audio;
+  final String id;
+  final int timestamp;
+  final int value;
+  final String image;
+  final String audio;
 
   MeritRecord({
-    this.id,
-    this.timestamp,
-    this.value,
-    this.image,
-    this.audio,
+    required this.id,
+    required this.timestamp,
+    required this.value,
+    required this.image,
+    required this.audio,
   });
   Map<String, dynamic> toJson() => {
         'id': id,
