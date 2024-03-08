@@ -1,5 +1,4 @@
-import 'package:demo/guess/guess_page.dart';
-import 'package:demo/muyu/muyu_page.dart';
+import 'package:demo/appNavigation/appNavigation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: const MuyuPage(),
+      home: const AppNavigation(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue,
