@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'package:demo/model/AudioOption.dart';
 import 'package:demo/model/ImageOption.dart';
 import 'package:demo/muyu/animate_text.dart';
+import 'package:demo/muyu/audio_option_panel.dart';
 import 'package:demo/muyu/image_option_panel.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:demo/muyu/asset_image.dart';
@@ -33,10 +35,27 @@ class _MuyuPageState extends State<MuyuPage> {
   // 音频
   AudioPool? pool;
 
+  // 音频列表
+  final List<AudioOption> audioOptions = const [
+    AudioOption(name: '音效1', src: 'muyu_1.mp3'),
+    AudioOption(name: '音效2', src: 'muyu_2.mp3'),
+    AudioOption(name: '音效3', src: 'muyu_3.mp3'),
+  ];
+  // 选中的音频索引
+  int _activeAudioIndex = 0;
+
+  // 切换音频
+  void _onSelectAudio(int value) {
+    Navigator.of(context).pop();
+    if (value == _activeAudioIndex) return;
+    _activeAudioIndex = value;
+    _initAudioPool('${audioOptions[value].src}');
+  }
+
   // 音频初始化
-  void _initAudioPool() async {
+  void _initAudioPool(String src) async {
     pool = await FlameAudio.createPool(
-      'muyu_1.mp3',
+      src,
       maxPlayers: 4,
     );
   }
@@ -44,7 +63,19 @@ class _MuyuPageState extends State<MuyuPage> {
   // 跳转历史记录页面
   void _toHistory() {}
   // 切换敲击音频
-  void _onTapSwitchAudio() {}
+  void _onTapSwitchAudio() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return AudioOptionPanel(
+          audioOptions: audioOptions,
+          activeIndex: _activeAudioIndex,
+          onSelect: _onSelectAudio,
+        );
+      },
+    );
+  }
+
   // 切换木鱼图片
   void _onTapSwitchImage() {
     showCupertinoModalPopup(
@@ -82,7 +113,7 @@ class _MuyuPageState extends State<MuyuPage> {
   @override
   void initState() {
     super.initState();
-    _initAudioPool();
+    _initAudioPool('${audioOptions[_activeAudioIndex].src}');
   }
 
   @override
