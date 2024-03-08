@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class CountPanel extends StatelessWidget {
   final int count;
   final VoidCallback onTapSwitchAudio;
-  final VoidCallback onTaoSwitchImage;
+  final VoidCallback onTapSwitchImage;
   const CountPanel({
     super.key,
     required this.count,
     required this.onTapSwitchAudio,
-    required this.onTaoSwitchImage,
+    required this.onTapSwitchImage,
   });
 
   @override
@@ -41,13 +41,19 @@ class CountPanel extends StatelessWidget {
             children: [
               ElevatedButton(
                 style: style,
-                onPressed: () {},
-                child: const Icon(Icons.music_note_outlined),
+                onPressed: onTapSwitchAudio,
+                child: const Icon(
+                  Icons.music_note_outlined,
+                  color: Colors.white,
+                ),
               ),
               ElevatedButton(
                 style: style,
-                onPressed: () {},
-                child: const Icon(Icons.image),
+                onPressed: onTapSwitchImage,
+                child: const Icon(
+                  Icons.image,
+                  color: Colors.white,
+                ),
               )
             ],
           ),

@@ -1,8 +1,11 @@
 import 'dart:math';
+import 'package:demo/model/ImageOption.dart';
 import 'package:demo/muyu/animate_text.dart';
+import 'package:demo/muyu/image_option_panel.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:demo/muyu/asset_image.dart';
 import 'package:demo/muyu/count_panel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MuyuPage extends StatefulWidget {
@@ -13,12 +16,6 @@ class MuyuPage extends StatefulWidget {
 }
 
 class _MuyuPageState extends State<MuyuPage> {
-  // 跳转历史记录页面
-  void _toHistory() {}
-  // 切换敲击音频
-  void _onTapSwitchAudio() {}
-  // 切换木鱼图片
-  void _onTaoSwitchImage() {}
   // 功德数
   int _counter = 0;
   final Random _random = Random();
@@ -26,28 +23,66 @@ class _MuyuPageState extends State<MuyuPage> {
   // 当前敲击增加的功德值
   int _cruValue = 0;
 
-  // 敲击木鱼
-  void _onKnock() {
-    pool?.start();
-    setState(() {
-      _cruValue = 1 + _random.nextInt(3);
-      _counter += _cruValue;
-    });
-  }
-
+  // 木鱼样式列表
+  final List<ImageOption> imageOptions = const [
+    ImageOption(name: '基础版', src: 'assets/images/muyu.png', min: 1, max: 3),
+    ImageOption(name: '尊享版', src: 'assets/images/muyu2.png', min: 3, max: 6),
+  ];
+  // 选中的木鱼样式索引
+  int _activeImageIndex = 0;
+  // 音频
   AudioPool? pool;
 
-  @override
-  void initState() {
-    super.initState();
-    _initAudioPool();
-  }
-
+  // 音频初始化
   void _initAudioPool() async {
     pool = await FlameAudio.createPool(
       'muyu_1.mp3',
       maxPlayers: 4,
     );
+  }
+
+  // 跳转历史记录页面
+  void _toHistory() {}
+  // 切换敲击音频
+  void _onTapSwitchAudio() {}
+  // 切换木鱼图片
+  void _onTapSwitchImage() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return ImageOptionPanel(
+          imageOptions: imageOptions,
+          activeIndex: _activeImageIndex,
+          onSelect: _onSelectImage,
+        );
+      },
+    );
+  }
+
+  // 点击了木鱼样式 切换样式
+  _onSelectImage(int value) {
+    Navigator.of(context).pop();
+    if (value == _activeImageIndex) return;
+    setState(() {
+      _activeImageIndex = value;
+    });
+  }
+
+  // 敲击木鱼
+  void _onKnock() {
+    pool?.start();
+    int? min = imageOptions[_activeImageIndex].min;
+    int? max = imageOptions[_activeImageIndex].max;
+    setState(() {
+      _cruValue = min! + _random.nextInt(max! - min + 1);
+      _counter += _cruValue;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initAudioPool();
   }
 
   @override
@@ -76,20 +111,21 @@ class _MuyuPageState extends State<MuyuPage> {
             child: CountPanel(
               count: _counter,
               onTapSwitchAudio: _onTapSwitchAudio,
-              onTaoSwitchImage: _onTaoSwitchImage,
+              onTapSwitchImage: _onTapSwitchImage,
             ),
           ),
           Expanded(
-              child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              MuyuAssetsImage(
-                image: 'assets/images/muyu.png',
-                onTap: _onKnock,
-              ),
-              if (_cruValue != 0) AnimateText(text: '功德+$_cruValue')
-            ],
-          ))
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                MuyuAssetsImage(
+                  image: '${imageOptions[_activeImageIndex].src}',
+                  onTap: _onKnock,
+                ),
+                if (_cruValue != 0) AnimateText(text: '功德+$_cruValue'),
+              ],
+            ),
+          )
         ],
       ),
     );
