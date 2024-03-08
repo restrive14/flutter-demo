@@ -112,6 +112,7 @@ class _MuyuPageState extends State<MuyuPage> {
     Navigator.of(context).pop();
     if (value == _activeImageIndex) return;
     setState(() {
+      _cruValue = 0;
       _activeImageIndex = value;
     });
   }
