@@ -15,7 +15,7 @@ class GuessPage extends StatefulWidget {
 class _GuessPageState extends State<GuessPage> {
   // 随机数
   int _value = 0;
-  Random _random = Random();
+  final Random _random = Random();
 
   // 判断是不是正在猜测中
   bool _guessing = false;
@@ -24,7 +24,7 @@ class _GuessPageState extends State<GuessPage> {
   bool? _isBig;
 
   // text输入框控制器
-  TextEditingController _guessCtrl = TextEditingController();
+  final TextEditingController _guessCtrl = TextEditingController();
 
   // 生成随机数
   void _generateRandomValue() {
@@ -82,11 +82,11 @@ class _GuessPageState extends State<GuessPage> {
               children: <Widget>[
                 if (!_guessing)
                   const Text(
-                    '点击生成随机数值',
+                    '点击右下角按钮生成随机数值',
                   ),
                 Text(
-                  _guessing ? '**' : '$_value',
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  _guessing ? '**' : '恭喜你猜对了，结果是$_value',
+                  style: const TextStyle(fontSize: 20, color: Colors.blue),
                 )
               ],
             ),
