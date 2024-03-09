@@ -1,4 +1,5 @@
 import 'package:demo/model/Line.dart';
+import 'package:demo/paintPaper/colorSelector.dart';
 import 'package:demo/paintPaper/paper_appBar.dart';
 import 'package:demo/paintPaper/paper_painter.dart';
 import 'package:demo/paintPaper/storkWidthSelector.dart';
@@ -63,6 +64,7 @@ class _PaintPaperState extends State<PaintPaper> {
     _lines.add(Line(
       points: [details.localPosition],
       strokeWidth: supportStorkWidths[_activeStorkWidthIndex],
+      color: supportColors[_activeColorIndex],
     ));
   }
 
@@ -75,6 +77,14 @@ class _PaintPaperState extends State<PaintPaper> {
     if (index != _activeStorkWidthIndex) {
       setState(() {
         _activeStorkWidthIndex = index;
+      });
+    }
+  }
+
+  void _onSelectColor(int index) {
+    if (index != _activeColorIndex) {
+      setState(() {
+        _activeColorIndex = index;
       });
     }
   }
@@ -97,12 +107,23 @@ class _PaintPaperState extends State<PaintPaper> {
           ),
           Positioned(
             bottom: 0,
-            right: 10,
-            child: StorkWidthSelector(
-              supportStorkWidths: supportStorkWidths,
-              activeIndex: _activeStorkWidthIndex,
-              color: Colors.black,
-              onSelect: _onSelectStorkWidth,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                Expanded(
+                  child: ColorSelector(
+                    supportColors: supportColors,
+                    activeIndex: _activeColorIndex,
+                    onSelect: _onSelectColor,
+                  ),
+                ),
+                StorkWidthSelector(
+                  supportStorkWidths: supportStorkWidths,
+                  activeIndex: _activeStorkWidthIndex,
+                  color: supportColors[_activeColorIndex],
+                  onSelect: _onSelectStorkWidth,
+                ),
+              ],
             ),
           ),
         ],
