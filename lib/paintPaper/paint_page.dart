@@ -33,6 +33,8 @@ class _PaintPaperState extends State<PaintPaper> {
   // 支持选择的线条宽度列表
   final List<double> supportStorkWidths = [1, 2, 4, 6, 8, 10];
 
+  final List<Line> _historyLines = [];
+
   void _clear() {
     showDialog(
       context: context,
@@ -89,10 +91,26 @@ class _PaintPaperState extends State<PaintPaper> {
     }
   }
 
+  void _back() {
+    Line line = _lines.removeLast();
+    _historyLines.add(line);
+    setState(() {});
+  }
+
+  void _revocation() {
+    Line line = _historyLines.removeLast();
+    _lines.add(line);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PaintPaperAppBar(onClear: _clear),
+      appBar: PaintPaperAppBar(
+        onClear: _clear,
+        onBack: _lines.isEmpty ? null : _back,
+        onRevocation: _historyLines.isEmpty ? null : _revocation,
+      ),
       body: Stack(
         children: [
           GestureDetector(
