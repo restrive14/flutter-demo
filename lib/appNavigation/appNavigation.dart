@@ -24,8 +24,11 @@ class _AppNavigationState extends State<AppNavigation> {
     MenuData(label: '白板绘制', icon: Icons.palette_outlined),
   ];
 
+  final PageController _ctrl = PageController();
+
   // 切换页面
   void _onChangePage(int index) {
+    _ctrl.jumpToPage(index);
     setState(() {
       _index = index;
     });
@@ -33,28 +36,39 @@ class _AppNavigationState extends State<AppNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(child: _buildPage(_index)),
-        AppBottomBar(
-          menus: menus,
-          currentIndex: _index,
-          onItemTap: _onChangePage,
-        )
-      ],
+    return Scaffold(
+      body: _buildPage(),
+      bottomNavigationBar: AppBottomBar(
+        currentIndex: _index,
+        onItemTap: _onChangePage,
+        menus: menus,
+      ),
     );
   }
 
-  Widget _buildPage(int index) {
-    switch (index) {
-      case 0:
-        return const GuessPage();
-      case 1:
-        return const MuyuPage();
-      case 2:
-        return const PaintPaper();
-      default:
-        return const SizedBox.shrink();
-    }
+  Widget _buildPage() {
+    return PageView(
+      controller: _ctrl,
+      onPageChanged: (value) {
+        setState(() {
+          _index = value;
+        });
+      },
+      children: const [
+        GuessPage(),
+        MuyuPage(),
+        PaintPaper(),
+      ],
+    );
+    // switch (index) {
+    //   case 0:
+    //     return const GuessPage();
+    //   case 1:
+    //     return const MuyuPage();
+    //   case 2:
+    //     return const PaintPaper();
+    //   default:
+    //     return const SizedBox.shrink();
+    // }
   }
 }

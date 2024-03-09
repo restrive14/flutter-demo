@@ -12,7 +12,11 @@ class PaintPaper extends StatefulWidget {
   State<PaintPaper> createState() => _PaintPaperState();
 }
 
-class _PaintPaperState extends State<PaintPaper> {
+class _PaintPaperState extends State<PaintPaper>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   //线列表
   List<Line> _lines = [];
   // 颜色激活索引
