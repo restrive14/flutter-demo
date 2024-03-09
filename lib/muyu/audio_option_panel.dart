@@ -33,10 +33,16 @@ class AudioOptionPanel extends StatelessWidget {
                 style: labelStyle,
               ),
             ),
-            ...List.generate(
-              audioOptions.length,
-              (index) => _buildByIndex(index),
-            )
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(
+                    audioOptions.length,
+                    (index) => _buildByIndex(index),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

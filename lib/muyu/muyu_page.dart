@@ -43,6 +43,18 @@ class _MuyuPageState extends State<MuyuPage> {
     AudioOption(name: '音效1', src: 'muyu_1.mp3'),
     AudioOption(name: '音效2', src: 'muyu_2.mp3'),
     AudioOption(name: '音效3', src: 'muyu_3.mp3'),
+    AudioOption(name: 'ah', src: 'ah.mp3'),
+    AudioOption(name: 'oi', src: 'oi.mp3'),
+    AudioOption(name: 'aha', src: 'aha.mp3'),
+    AudioOption(name: 'baby', src: 'baby.mp3'),
+    AudioOption(name: 'damn', src: 'damn.mp3'),
+    AudioOption(name: 'nice', src: 'nice.mp3'),
+    AudioOption(name: 'gee', src: 'gee.mp3'),
+    AudioOption(name: 'huh', src: 'huh.mp3'),
+    AudioOption(name: 'music', src: 'music.mp3'),
+    AudioOption(name: 'pushy', src: 'pushy.mp3'),
+    AudioOption(name: 'saiban', src: 'saiban.mp3'),
+    AudioOption(name: 'what', src: 'what.mp3'),
   ];
   // 选中的音频索引
   int _activeAudioIndex = 0;
