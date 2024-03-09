@@ -71,6 +71,11 @@ class _PaintPaperState extends State<PaintPaper> {
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
+    Offset point = details.localPosition;
+    double distance = (_lines.last.points.last - point).distance;
+    if (distance < 5) {
+      return;
+    }
     _lines.last.points.add(details.localPosition);
     setState(() {});
   }
