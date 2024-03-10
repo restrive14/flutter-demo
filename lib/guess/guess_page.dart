@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:demo/guess/guess_appbar.dart';
 import 'package:demo/guess/result_notice.dart';
+import 'package:demo/storage/spstorage.dart';
 import 'package:flutter/material.dart';
 
 class GuessPage extends StatefulWidget {
@@ -11,7 +12,8 @@ class GuessPage extends StatefulWidget {
   State<GuessPage> createState() => _GuessPageState();
 }
 
-class _GuessPageState extends State<GuessPage> {
+class _GuessPageState extends State<GuessPage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   // 随机数
   int _value = 0;
   final Random _random = Random();
@@ -30,12 +32,14 @@ class _GuessPageState extends State<GuessPage> {
     setState(() {
       _guessing = true;
       _value = _random.nextInt(100);
+      // 存储到本地
+      SpStorage.instance.saveGuess(guessing: _guessing, value: _value);
     });
   }
 
   // 进行猜测
   void _onCheck() {
-    print('$_value');
+    // print('$_value');
     int? guessValue = int.tryParse(_guessCtrl.text);
     if (!_guessing || guessValue == null) return;
     if (guessValue == _value) {
@@ -43,11 +47,25 @@ class _GuessPageState extends State<GuessPage> {
         _isBig = null;
         _guessing = false;
       });
+      // 存储到本地
+      SpStorage.instance.saveGuess(guessing: _guessing, value: 0);
       return;
     }
     setState(() {
       _isBig = guessValue > _value;
     });
+  }
+
+  void _initConfig() async {
+    Map<String, dynamic> config = await SpStorage.instance.readGuessConfig();
+    _guessing = config['guessing'] ?? false;
+    _value = config['value'] ?? 0;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    _initConfig();
   }
 
   @override
@@ -100,4 +118,8 @@ class _GuessPageState extends State<GuessPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => throw UnimplementedError();
 }
