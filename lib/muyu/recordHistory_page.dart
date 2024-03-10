@@ -1,7 +1,6 @@
 import 'package:demo/model/MeritRecord.dart';
 import 'package:demo/muyu/recordHistory_appBar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class RecordHistoryPage extends StatefulWidget {
   final List<MeritRecord> records;

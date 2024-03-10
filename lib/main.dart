@@ -1,7 +1,10 @@
 import 'package:demo/appNavigation/appNavigation.dart';
+import 'package:demo/db/db_storage/db_storage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  DbStorage.instance.open();
   runApp(const MyApp());
 }
 

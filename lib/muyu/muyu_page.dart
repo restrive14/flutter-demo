@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:demo/db/db_storage/db_storage.dart';
 import 'package:demo/model/AudioOption.dart';
 import 'package:demo/model/ImageOption.dart';
 import 'package:demo/model/MeritRecord.dart';
@@ -62,7 +63,7 @@ class _MuyuPageState extends State<MuyuPage> {
   List<MeritRecord> _records = [];
 
   // 生成唯一ID
-  final Uuid uuid = Uuid();
+  final Uuid uuid = const Uuid();
 
   // 切换音频
   void _onSelectAudio(int value) {
@@ -139,27 +140,33 @@ class _MuyuPageState extends State<MuyuPage> {
     pool?.start();
     int? min = imageOptions[_activeImageIndex].min;
     int? max = imageOptions[_activeImageIndex].max;
+    final _cruRecord = MeritRecord(
+      id: uuid.v4(),
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      value: _cruValue,
+      image: '${imageOptions[_activeImageIndex].src}',
+      audio: '${audioOptions[_activeAudioIndex].name}',
+    );
     setState(() {
       _cruValue = min! + _random.nextInt(max! - min + 1);
       _counter += _cruValue;
-
+      // 把生成的数据存到数据库
+      DbStorage.instance.meritRecordDao.insert(_cruRecord);
       // 添加功德记录
-      _records.add(
-        MeritRecord(
-          id: uuid.v4(),
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          value: _cruValue,
-          image: '${imageOptions[_activeImageIndex].src}',
-          audio: '${audioOptions[_activeAudioIndex].name}',
-        ),
-      );
+      _records.add(_cruRecord);
     });
+  }
+
+  void _initConfig() async {
+    _records = await DbStorage.instance.meritRecordDao.query();
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
     _initAudioPool('${audioOptions[_activeAudioIndex].src}');
+    _initConfig();
   }
 
   @override
