@@ -81,14 +81,19 @@ class _MuyuPageState extends State<MuyuPage> {
   }
 
   // 跳转历史记录页面
-  void _toHistory() {
-    Navigator.of(context).push(
+  void _toHistory() async {
+    final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => RecordHistoryPage(
           records: _records.reversed.toList(),
         ),
       ),
     );
+    if (result) {
+      setState(() {
+        _records.clear();
+      });
+    }
   }
 
   // 切换敲击音频

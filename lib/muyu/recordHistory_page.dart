@@ -1,17 +1,55 @@
 import 'package:demo/model/MeritRecord.dart';
+import 'package:demo/muyu/recordHistory_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class RecordHistoryPage extends StatelessWidget {
+class RecordHistoryPage extends StatefulWidget {
   final List<MeritRecord> records;
-  RecordHistoryPage({super.key, required this.records});
+  const RecordHistoryPage({super.key, required this.records});
+  @override
+  State<RecordHistoryPage> createState() => _RecordHistoryPageState();
+}
+
+class _RecordHistoryPageState extends State<RecordHistoryPage> {
+  late bool deleted = false;
+  // 清除功德记录
+  void clearHistory() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('提示'),
+        content: const Text('是否清除历史记录?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: const Text('取消'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              setState(() {
+                widget.records.clear();
+                deleted = true;
+              });
+            },
+            child: const Text('确定'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: HistoryAppBar(
+        clearHistory,
+        deleted: deleted,
+      ),
       body: ListView.builder(
-        itemCount: records.length,
+        itemCount: widget.records.length,
         itemBuilder: (context, index) {
           return _buildItem(index);
         },
@@ -19,30 +57,16 @@ class RecordHistoryPage extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      title: const Text(
-        '功德记录',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.white,
-      iconTheme: const IconThemeData(color: Colors.black),
-    );
-  }
-
   Widget _buildItem(int index) {
-    final date = DateTime.fromMillisecondsSinceEpoch(records[index].timestamp);
+    final date =
+        DateTime.fromMillisecondsSinceEpoch(widget.records[index].timestamp);
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.blue,
-        backgroundImage: AssetImage(records[index].image),
+        backgroundImage: AssetImage(widget.records[index].image),
       ),
-      title: Text('功德 + ${records[index].value}'),
-      subtitle: Text(records[index].audio),
+      title: Text('功德 + ${widget.records[index].value}'),
+      subtitle: Text(widget.records[index].audio),
       trailing: Text('$date',
           style: const TextStyle(fontSize: 12, color: Colors.grey)),
     );
