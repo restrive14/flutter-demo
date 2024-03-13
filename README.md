@@ -1,16 +1,8 @@
-# demo
+## demo
 
-A new Flutter project.
+#### 掘金小册flutter 练手项目
 
-## Getting Started
+`https://juejin.cn/book/7212822723330834487?utm_source=course_list`
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### 效果
+<video src="/demo/assets/video/video.mp4" autoplay="true" controls="controls"></video>
