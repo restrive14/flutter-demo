@@ -2,6 +2,7 @@ import 'package:demo/model/ImageOption.dart';
 import 'package:demo/muyu/image_option_item.dart';
 import 'package:flutter/material.dart';
 
+// 木鱼样式面板
 class ImageOptionPanel extends StatelessWidget {
   final List<ImageOption> imageOptions;
   final ValueChanged<int> onSelect;

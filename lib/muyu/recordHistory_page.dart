@@ -10,6 +10,7 @@ class RecordHistoryPage extends StatefulWidget {
 }
 
 class _RecordHistoryPageState extends State<RecordHistoryPage> {
+  // 是否清除历史记录
   late bool deleted = false;
   // 清除功德记录
   void clearHistory() {
@@ -56,6 +57,7 @@ class _RecordHistoryPageState extends State<RecordHistoryPage> {
     );
   }
 
+  // 历史记录Item
   Widget _buildItem(int index) {
     final date =
         DateTime.fromMillisecondsSinceEpoch(widget.records[index].timestamp);
@@ -66,8 +68,13 @@ class _RecordHistoryPageState extends State<RecordHistoryPage> {
       ),
       title: Text('功德 + ${widget.records[index].value}'),
       subtitle: Text(widget.records[index].audio),
-      trailing: Text('$date',
-          style: const TextStyle(fontSize: 12, color: Colors.grey)),
+      trailing: Text(
+        '$date',
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }

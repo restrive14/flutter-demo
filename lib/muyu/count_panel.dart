@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 功德数面板
 class CountPanel extends StatelessWidget {
   final int count;
   final VoidCallback onTapSwitchAudio;

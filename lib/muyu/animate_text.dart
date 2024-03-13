@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 敲击木鱼增加功德数动画效果
 class AnimateText extends StatefulWidget {
   final String text;
   const AnimateText({super.key, required this.text});

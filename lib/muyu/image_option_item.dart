@@ -1,6 +1,7 @@
 import 'package:demo/model/ImageOption.dart';
 import 'package:flutter/material.dart';
 
+// 木鱼样式Item
 class ImageOptionItem extends StatelessWidget {
   final ImageOption option;
   final bool active;

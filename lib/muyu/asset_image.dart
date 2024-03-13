@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 木鱼面板
 class MuyuAssetsImage extends StatelessWidget {
   final String image;
   final VoidCallback onTap;

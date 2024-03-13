@@ -29,7 +29,10 @@ class HistoryAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: clearHistory,
-          icon: const Icon(Icons.delete_outline_outlined, color: Colors.black),
+          icon: const Icon(
+            Icons.delete_outline_outlined,
+            color: Colors.black,
+          ),
         )
       ],
     );

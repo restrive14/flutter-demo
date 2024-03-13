@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:demo/guess/guess_appbar.dart';
 import 'package:demo/guess/result_notice.dart';
-import 'package:demo/storage/spstorage.dart';
+// import 'package:demo/storage/spstorage.dart';
 import 'package:flutter/material.dart';
 
 class GuessPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class GuessPage extends StatefulWidget {
 class _GuessPageState extends State<GuessPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   // 随机数
-  int _value = 0;
+  int _value = -1;
   final Random _random = Random();
 
   // 判断是不是正在猜测中
@@ -33,7 +33,7 @@ class _GuessPageState extends State<GuessPage>
       _guessing = true;
       _value = _random.nextInt(100);
       // 存储到本地
-      SpStorage.instance.saveGuess(guessing: _guessing, value: _value);
+      // SpStorage.instance.saveGuess(guessing: _guessing, value: _value);
     });
   }
 
@@ -48,7 +48,7 @@ class _GuessPageState extends State<GuessPage>
         _guessing = false;
       });
       // 存储到本地
-      SpStorage.instance.saveGuess(guessing: _guessing, value: 0);
+      // SpStorage.instance.saveGuess(guessing: _guessing, value: 0);
       return;
     }
     setState(() {
@@ -56,16 +56,16 @@ class _GuessPageState extends State<GuessPage>
     });
   }
 
-  void _initConfig() async {
-    Map<String, dynamic> config = await SpStorage.instance.readGuessConfig();
-    _guessing = config['guessing'] ?? false;
-    _value = config['value'] ?? 0;
-    setState(() {});
-  }
+  // void _initConfig() async {
+  //   Map<String, dynamic> config = await SpStorage.instance.readGuessConfig();
+  //   _guessing = config['guessing'] ?? false;
+  //   _value = config['value'] ?? 0;
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
-    _initConfig();
+    //  _initConfig();
   }
 
   @override
@@ -102,7 +102,11 @@ class _GuessPageState extends State<GuessPage>
                     '点击右下角按钮生成随机数值',
                   ),
                 Text(
-                  _guessing ? '**' : '恭喜你猜对了，结果是$_value',
+                  _guessing
+                      ? '**'
+                      : _value == -1
+                          ? ''
+                          : '恭喜你猜对了，结果是$_value',
                   style: const TextStyle(fontSize: 20, color: Colors.blue),
                 )
               ],

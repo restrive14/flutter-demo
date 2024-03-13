@@ -2,6 +2,7 @@ import 'package:demo/model/AudioOption.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
+/// 音效选项面板
 class AudioOptionPanel extends StatelessWidget {
   final List<AudioOption> audioOptions;
   final ValueChanged<int> onSelect;

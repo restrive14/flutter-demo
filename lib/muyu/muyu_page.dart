@@ -22,6 +22,8 @@ class MuyuPage extends StatefulWidget {
 }
 
 class _MuyuPageState extends State<MuyuPage> {
+  // 生成唯一ID
+  final Uuid uuid = const Uuid();
   // 功德数
   int _counter = 0;
   final Random _random = Random();
@@ -36,6 +38,31 @@ class _MuyuPageState extends State<MuyuPage> {
   ];
   // 选中的木鱼样式索引
   int _activeImageIndex = 0;
+
+  // 切换木鱼图片
+  void _onTapSwitchImage() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return ImageOptionPanel(
+          imageOptions: imageOptions,
+          activeIndex: _activeImageIndex,
+          onSelect: _onSelectImage,
+        );
+      },
+    );
+  }
+
+  // 点击了木鱼样式 切换样式
+  _onSelectImage(int value) {
+    Navigator.of(context).pop();
+    if (value == _activeImageIndex) return;
+    setState(() {
+      _cruValue = 0;
+      _activeImageIndex = value;
+    });
+  }
+
   // 音频
   AudioPool? pool;
 
@@ -60,17 +87,26 @@ class _MuyuPageState extends State<MuyuPage> {
   // 选中的音频索引
   int _activeAudioIndex = 0;
 
-  List<MeritRecord> _records = [];
-
-  // 生成唯一ID
-  final Uuid uuid = const Uuid();
-
-  // 切换音频
+  // 选择音频
   void _onSelectAudio(int value) {
     Navigator.of(context).pop();
     if (value == _activeAudioIndex) return;
     _activeAudioIndex = value;
     _initAudioPool('${audioOptions[value].src}');
+  }
+
+  // 弹出音频面板
+  void _onTapSwitchAudio() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return AudioOptionPanel(
+          audioOptions: audioOptions,
+          activeIndex: _activeAudioIndex,
+          onSelect: _onSelectAudio,
+        );
+      },
+    );
   }
 
   // 音频初始化
@@ -97,49 +133,14 @@ class _MuyuPageState extends State<MuyuPage> {
     }
   }
 
-  // 切换敲击音频
-  void _onTapSwitchAudio() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return AudioOptionPanel(
-          audioOptions: audioOptions,
-          activeIndex: _activeAudioIndex,
-          onSelect: _onSelectAudio,
-        );
-      },
-    );
-  }
-
-  // 切换木鱼图片
-  void _onTapSwitchImage() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return ImageOptionPanel(
-          imageOptions: imageOptions,
-          activeIndex: _activeImageIndex,
-          onSelect: _onSelectImage,
-        );
-      },
-    );
-  }
-
-  // 点击了木鱼样式 切换样式
-  _onSelectImage(int value) {
-    Navigator.of(context).pop();
-    if (value == _activeImageIndex) return;
-    setState(() {
-      _cruValue = 0;
-      _activeImageIndex = value;
-    });
-  }
-
+  // 敲击记录
+  List<MeritRecord> _records = [];
   // 敲击木鱼
   void _onKnock() {
     pool?.start();
     int? min = imageOptions[_activeImageIndex].min;
     int? max = imageOptions[_activeImageIndex].max;
+    // 生成记录
     final _cruRecord = MeritRecord(
       id: uuid.v4(),
       timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -209,7 +210,7 @@ class _MuyuPageState extends State<MuyuPage> {
                 if (_cruValue != 0) AnimateText(text: '功德+$_cruValue'),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
