@@ -18,7 +18,7 @@ class _PaintPaperState extends State<PaintPaper>
   bool get wantKeepAlive => true;
 
   //线列表
-  List<Line> _lines = [];
+  final List<Line> _lines = [];
   // 颜色激活索引
   int _activeColorIndex = 0;
   // 线宽激活索引
@@ -36,9 +36,10 @@ class _PaintPaperState extends State<PaintPaper>
   ];
   // 支持选择的线条宽度列表
   final List<double> supportStorkWidths = [1, 2, 4, 6, 8, 10];
-
+  // 历史线条记录
   final List<Line> _historyLines = [];
 
+  // 清除画板
   void _clear() {
     showDialog(
       context: context,
@@ -66,6 +67,7 @@ class _PaintPaperState extends State<PaintPaper>
     );
   }
 
+  // 开始绘制
   void _onPanStart(DragStartDetails details) {
     _lines.add(Line(
       points: [details.localPosition],
@@ -84,6 +86,7 @@ class _PaintPaperState extends State<PaintPaper>
     setState(() {});
   }
 
+  // 选择画笔粗细
   void _onSelectStorkWidth(int index) {
     if (index != _activeStorkWidthIndex) {
       setState(() {
@@ -92,6 +95,7 @@ class _PaintPaperState extends State<PaintPaper>
     }
   }
 
+  // 选择画笔颜色
   void _onSelectColor(int index) {
     if (index != _activeColorIndex) {
       setState(() {
@@ -100,12 +104,14 @@ class _PaintPaperState extends State<PaintPaper>
     }
   }
 
+  // 回退一步
   void _back() {
     Line line = _lines.removeLast();
     _historyLines.add(line);
     setState(() {});
   }
 
+  // 前进一步
   void _revocation() {
     Line line = _historyLines.removeLast();
     _lines.add(line);
@@ -114,6 +120,7 @@ class _PaintPaperState extends State<PaintPaper>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: PaintPaperAppBar(
         onClear: _clear,

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// 画板顶部tabbar
 class PaintPaperAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onClear;
 

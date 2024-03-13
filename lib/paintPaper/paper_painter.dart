@@ -4,6 +4,7 @@ import 'package:demo/model/Line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// 画板绘画区域
 class PaperPainter extends CustomPainter {
   late Paint _paint;
   final List<Line> lines;

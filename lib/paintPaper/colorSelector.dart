@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 选择画笔颜色面板
 class ColorSelector extends StatelessWidget {
   final List<Color> supportColors;
   final int activeIndex;

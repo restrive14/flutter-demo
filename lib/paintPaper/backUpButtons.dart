@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 画板顶部tabbar左侧 回退前进按钮
 class BackUpButtons extends StatelessWidget {
   final VoidCallback? onBack;
   final VoidCallback? onRevocation;
@@ -23,15 +24,20 @@ class BackUpButtons extends StatelessWidget {
             splashRadius: 20,
             onPressed: onBack,
             constraints: cts,
-            icon: Icon(Icons.arrow_circle_left_outlined, color: backColor),
+            icon: Icon(
+              Icons.arrow_circle_left_outlined,
+              color: backColor,
+            ),
           ),
           IconButton(
             splashRadius: 20,
             onPressed: onRevocation,
             constraints: cts,
-            icon:
-                Icon(Icons.arrow_circle_right_outlined, color: revocationColor),
-          )
+            icon: Icon(
+              Icons.arrow_circle_right_outlined,
+              color: revocationColor,
+            ),
+          ),
         ],
       ),
     );
