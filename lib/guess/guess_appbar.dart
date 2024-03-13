@@ -14,10 +14,10 @@ class GuessAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.transparent,
       ),
-      leading: const Icon(
-        Icons.menu,
-        color: Colors.black,
-      ),
+      // leading: const Icon(
+      //   Icons.menu,
+      //   color: Colors.black,
+      // ),
       title: TextField(
         controller: controller,
         keyboardType: TextInputType.number,
