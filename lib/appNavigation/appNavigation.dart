@@ -3,8 +3,6 @@ import 'package:demo/guess/guess_page.dart';
 import 'package:demo/model/BottomMenuData.dart';
 import 'package:demo/muyu/muyu_page.dart';
 import 'package:demo/paintPaper/paint_page.dart';
-import 'package:demo/paintPaper/paper_painter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigation extends StatefulWidget {
@@ -15,6 +13,7 @@ class AppNavigation extends StatefulWidget {
 }
 
 class _AppNavigationState extends State<AppNavigation> {
+  //  底部导航栏当前选中项
   int _index = 0;
 
   //  底部导航栏Item 列表
@@ -24,6 +23,7 @@ class _AppNavigationState extends State<AppNavigation> {
     MenuData(label: '白板绘制', icon: Icons.palette_outlined),
   ];
 
+  // 页面控制器
   final PageController _ctrl = PageController();
 
   // 切换页面
@@ -46,9 +46,11 @@ class _AppNavigationState extends State<AppNavigation> {
     );
   }
 
+  // 构建可切换页面
   Widget _buildPage() {
     return PageView(
       controller: _ctrl,
+      physics: const ClampingScrollPhysics(),
       onPageChanged: (value) {
         setState(() {
           _index = value;
@@ -60,15 +62,5 @@ class _AppNavigationState extends State<AppNavigation> {
         PaintPaper(),
       ],
     );
-    // switch (index) {
-    //   case 0:
-    //     return const GuessPage();
-    //   case 1:
-    //     return const MuyuPage();
-    //   case 2:
-    //     return const PaintPaper();
-    //   default:
-    //     return const SizedBox.shrink();
-    // }
   }
 }

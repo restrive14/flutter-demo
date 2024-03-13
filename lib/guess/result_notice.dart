@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// 显示猜测结果
+
 class ResultNotice extends StatefulWidget {
   final Color color;
   final String info;
